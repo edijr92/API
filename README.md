@@ -37,8 +37,10 @@ Con el token obetenido podremos buscar usuarios desde el endpoint ```/usersAll``
   }
 ```
 El endpoint de busqueda acepta parametros de query para paginacion desde el endponit como: ```/usersAll?limit=2``` y permite busqueda de usuarios registrados por mail siguiendo los siguientes parametros:
+```
   {
     "token": "<token>",
     "mail": "<mail>"
   }
+  ```
   
