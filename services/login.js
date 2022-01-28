@@ -23,28 +23,39 @@ const SignUp = (req, res) => {
 const LogIn = async (req, res) => {
     const data = { mail: req.body.mail, password: req.body.password };
     
+    try {
     await Users.findOne({mail: req.body.mail}, (err, response) => {
-        if(err){
-            res.status(401).send({
-                ok: false,
-                data: "Error Connection"
+        console.log(data)
+        console.log(response)
+        if(response.password == data.password && response.mail == data.mail ){
+            const tokenData = jwt.sign(data, process.env.ACCESS_TOKEN, { expiresIn: '7d' });
+            res.status(200).send({
+                ok: true,
+                data:{
+                    user: response.mail,
+                    token: tokenData
+                }
             })
         }
-        if(!response){
-            res.status(500).send({
+        // } else if (err){
+        //     res.status(500).send({
+        //         ok: false,
+        //         data: "Wrong Email or Password"
+        //     })
+        // }
+        else {
+            res.send({
                 ok: false,
-                data: "Wrong Email or Password"
+                message: "Wrong Email or Password"
             })
         }
-        const tokenData = jwt.sign(data, process.env.ACCESS_TOKEN, { expiresIn: '7d' });
-        res.status(200).send({
-            ok: true,
-            data:{
-                user: response.mail,
-                token: tokenData
-            }
+    }).clone().catch((error) => { console.log(error)})
+    } catch(error){
+        res.send({
+            ok: false,
+            message: error
         })
-    }).clone().catch((err) => { console.log(err)})
+    }
 };
 
 // Servicio List Users, llama al servicio Bussiness corriendo en el puerto 3001
