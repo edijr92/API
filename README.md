@@ -11,7 +11,7 @@ Crear archivo ```.env``` y añadir las siguientes variables:
 
 ```
 USER=user1
-KEY=123456
+KEY=123456ab
 ACCESS_TOKEN=ATOKEN
 ```
 en ```/API```
