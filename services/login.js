@@ -25,8 +25,6 @@ const LogIn = async (req, res) => {
     
     try {
     await Users.findOne({mail: req.body.mail}, (err, response) => {
-        console.log(data)
-        console.log(response)
         if(response.password == data.password && response.mail == data.mail ){
             const tokenData = jwt.sign(data, process.env.ACCESS_TOKEN, { expiresIn: '7d' });
             res.status(200).send({
@@ -37,12 +35,6 @@ const LogIn = async (req, res) => {
                 }
             })
         }
-        // } else if (err){
-        //     res.status(500).send({
-        //         ok: false,
-        //         data: "Wrong Email or Password"
-        //     })
-        // }
         else {
             res.send({
                 ok: false,
