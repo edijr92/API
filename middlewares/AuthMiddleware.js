@@ -1,26 +1,15 @@
 const jwt = require('jsonwebtoken')
-
+//Middleware utilizado para verificar la autenticacion de los usuarios
 const AuthMiddleware = (
   req, res, next
 ) => {
   const authorization = req.headers['authorization']
-
-  if (!authorization) {
-    return res.status(403).json({
-      ok: false,
-      errors: [
-        {
-          message: 'not authenticated',
-        },
-      ],
-    })
-  }
-
   try {
     const token = authorization.slice(7, authorization.length)
-    jwt.verify(token, 'ATOKEN')
-  } catch (err) {
-    return res.status(403).json({
+    jwt.verify(token, 'ATOKEN');
+  } 
+  catch (err) {
+    return res.status(403).send({
       ok: false,
       errors: [
         {

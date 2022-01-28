@@ -2,6 +2,8 @@ const Users = require('../schema/Users');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
+// Servicio Sign Up
+
 const SignUp = (req, res) => {
     const signIn = new Users({
         mail: req.body.mail,
@@ -15,6 +17,8 @@ const SignUp = (req, res) => {
         res.send(err).status(500)
     })
 };
+
+// Servicio Log In
 
 const LogIn = async (req, res) => {
     const data = { mail: req.body.mail, password: req.body.password };
@@ -32,8 +36,7 @@ const LogIn = async (req, res) => {
                 data: "Wrong Email or Password"
             })
         }
-        const tokenData = jwt.sign(data, 'ATOKEN', { expiresIn: '7d' });
-        console.log(`${req.body.mail} is log in`)
+        const tokenData = jwt.sign(data, process.env.ACCESS_TOKEN, { expiresIn: '7d' });
         res.status(200).send({
             ok: true,
             data:{
@@ -44,25 +47,30 @@ const LogIn = async (req, res) => {
     }).clone().catch((err) => { console.log(err)})
 };
 
+// Servicio List Users, llama al servicio Bussiness corriendo en el puerto 3001
+
 const ListUsers = (req, res) => {
     const token = req.body.token;
-    jwt.verify(token, 'ATOKEN', (err, verify)=>{
-        if(verify){
-            const url="http://127.0.0.2:3001/listUsers";
-            axios(url, { headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }}, ).then(response => res.send({
-                ok: true,
-                users: response.data.data
-            })).catch(err => {
-                res.send({
-                    ok: false,
-                    data: `Error: ${err}`
-                })
-            })
-        }
+    const { limit } = req.query;
+    const mailSearch = { mail: req.body.mail } || {}
+    const url= "http://127.0.0.2:3001/listUsers";
+    axios.post(url, { limit: limit, mailSearch: mailSearch}, { headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+    }}).then(response => res.send({
+        ok: true,
+        users: response.data.data
+    })).catch(err => {
+        res.send({
+            ok: false,
+            errors: [
+                {
+                message: "Error Connection"
+                },
+            ],
+        })
     })
+
 }
 
 
