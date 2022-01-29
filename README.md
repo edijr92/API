@@ -16,6 +16,8 @@ ACCESS_TOKEN=ATOKEN
 ```
 en ```/API```
 
+Correr : ```yarn start```
+
 Registrar desde el endpoint ```/signUp```  corriendo en localhost:3000 con los siguientes parametros por body:
 ```
   {
