@@ -4,17 +4,20 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const AuthMiddleware = require('../middlewares/AuthMiddleware')
+// const dotenv = require('dotenv')
+// const path = require('path')
 
 // Servicio Bussiness, devuelve busqueda de usuarios paginada y permite la busqueda no sensitiva por mail
 
-require('dotenv').config({path: __dirname + '/.env'})
+require('dotenv/config')
 app.use(bodyParser.json());
 app.use(AuthMiddleware)
 
-const uri = `mongodb+srv://${process.env.USER}:${process.env.KEY}@cluster0.njmoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
-
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, ()=> 
-    console.log('connected to mongodb'))
+const uri = process.env.DB_CONECCTION
+console.log(uri)
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, (err)=>{
+    err ? console.log('Auth Failure') : console.log('connected to mongodb')
+})
 
 app.post('/listUsers', async (req, res ) => {
     const mail = req.body.mailSearch

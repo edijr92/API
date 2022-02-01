@@ -14,7 +14,7 @@
     "path": "^0.12.7"
   },
   "scripts": {
-    "start": "concurrently \"export NODE_ENV && nodemon api.js\" \"nodemon services/bussiness.js\""
+    "start": "concurrently \"export NODE_ENV && nodemon api.js\" \"export NODE_ENV && nodemon services/bussiness.js\""
   },
   "name": "1.0.0",
   "version": "1.0.0",
