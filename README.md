@@ -10,8 +10,7 @@ Run ```yarn``` desde ```/API```
 Crear archivo ```.env``` y añadir las siguientes variables:
 
 ```
-USER=user1
-KEY=123456ab
+DB_CONECCTION=mongodb+srv://testing02:Dakota21@cluster0.njmoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 ACCESS_TOKEN=ATOKEN
 ```
 en ```/API```
