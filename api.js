@@ -3,8 +3,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = require('./routes/index.js');
 const mongoose = require('mongoose');
-// const path = require('path');
-// const dotenv = require('dotenv')
 
 // Server en Express.js y conexion a la DB en MongoDB
 

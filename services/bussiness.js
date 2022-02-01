@@ -4,8 +4,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const AuthMiddleware = require('../middlewares/AuthMiddleware')
-// const dotenv = require('dotenv')
-// const path = require('path')
 
 // Servicio Bussiness, devuelve busqueda de usuarios paginada y permite la busqueda no sensitiva por mail
 
@@ -14,7 +12,7 @@ app.use(bodyParser.json());
 app.use(AuthMiddleware)
 
 const uri = process.env.DB_CONECCTION
-console.log(uri)
+
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, (err)=>{
     err ? console.log('Auth Failure') : console.log('connected to mongodb')
 })
