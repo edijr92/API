@@ -22,10 +22,10 @@ const SignUp = (req, res) => {
 
 const LogIn = async (req, res) => {
     const data = { mail: req.body.mail, password: req.body.password };
-    
     try {
     await Users.findOne({mail: req.body.mail}, (err, response) => {
-        if(response.password == data.password && response.mail == data.mail ){
+        const {mail, password } = response || ""
+        if(password == data.password && mail == data.mail ){
             const tokenData = jwt.sign(data, process.env.ACCESS_TOKEN, { expiresIn: '7d' });
             res.status(200).send({
                 ok: true,
@@ -35,6 +35,12 @@ const LogIn = async (req, res) => {
                 }
             })
         }
+        // else if( response == null) {
+        //     res.send({
+        //         ok: false,
+        //         message: "Wrong Email or Password"
+        //     })
+        // }
         else {
             res.send({
                 ok: false,
